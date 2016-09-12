@@ -1,4 +1,6 @@
 import {observable} from "mobx";
+import {client} from "../config";
+import config from "../config";
 
 class Session {
   @observable username:string;
@@ -13,16 +15,34 @@ class Session {
     this.pic = "";
   }
 
-  register(username, password) {
-    console.log("register");
+  async register(username, password) {
     this.username = username;
-    this.hasSession = true;
+    let res = await client.post("/user", {
+      body: {
+        username,
+        email: "",
+        password,
+      },
+    });
+
+    if (res.ok) {
+      this.login(username, password);
+    }
   }
 
-  login(username, password) {
-    console.log("login");
+  async login(username, password) {
     this.username = username;
-    this.hasSession = true;
+    const res = await client.post("/session", {
+      body: {
+        username,
+        password
+      }
+    });
+
+    if (res.ok) {
+      this.token = res.body.token;
+      this.hasSession = true;
+    }
   }
 }
 
