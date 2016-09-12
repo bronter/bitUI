@@ -1,0 +1,10 @@
+{% import HeaderStyles from '../../../styles/components/header.scss' %}
+{% import Kermit from "../../../media/images/kermit.jpg" %}
+
+<div class="header">
+  <div class="pic-and-name {{ hasSession ? '' : 'hidden' }}">
+    <img class="pic" src={{ user.pic || Kermit }} alt="{{ user.name }}'s profile pic'" />
+    <span class="name">{{ user.name }}</span>
+  </div>
+  <div class="title {{ hasSession ? '' : 'no-profile' }}">{{ title }}</div>
+</div>
