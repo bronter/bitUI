@@ -35,7 +35,7 @@ export default class LoginRegisterDropdown extends React.Component {
 
   @autobind
   handleSubmit() {
-    userProxy.submit();
+    userProxy[this.props.register ? "register" : "login" ]();
   }
 
   render() {
@@ -60,7 +60,7 @@ export default class LoginRegisterDropdown extends React.Component {
           />
           <input
             onChange={this.handleChangeForConfirmPassword}
-            className={cx({hidden: this.props.register})}
+            className={cx({hidden: !this.props.register})}
             type="password" id="confirm-password"
             placeholder="Confirm Password"
           />

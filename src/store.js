@@ -10,8 +10,14 @@ export default class Store {
 
   dispatch() {
     this.observers.map((obs) => {
-      if (obs.props == null || name in obs.props) {
-        obs.cb({[name]: value});
+      const kept = (obs.props || []).reduce((accum, prop) => {
+        if (prop in this) {
+          accum[prop] = this[prop];
+        }
+        return accum;
+      }, {});
+      if (Object.keys(kept).length > 0) {
+        obs.cb(kept);
       }
     });
   }
@@ -22,7 +28,7 @@ export default class Store {
         if (name in target) {
           target[name] = value;
           target.dispatch();
-          return value;
+          return true;
         } else {
           throw new Error(`Target store has no prop ${name}`);
         }

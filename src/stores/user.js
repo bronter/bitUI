@@ -1,4 +1,5 @@
 import Store from "../store";
+import {client} from "../config";
 
 class UserStore extends Store {
   constructor() {
