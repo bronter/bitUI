@@ -16,7 +16,7 @@ export default class Home extends React.Component {
       hasSession: userStore.hasSession,
     };
 
-    userStore.registerObserver(["name", "pic", "hasSession"], (user) => {
+    userStore.registerObserver(["name", "pic", "password", "hasSession"], (user) => {
       this.setState(user);
     })
   }
@@ -31,8 +31,8 @@ export default class Home extends React.Component {
         <Header {...this.state} title={title}/>
         <div className="sidebar-and-content">
           <div className="sidebar">
-            <LoginRegisterDropdown className={cx({hidden: hasSession})} register={false}/>
-            <LoginRegisterDropdown className={cx({hidden: hasSession})} register={true} />
+            <LoginRegisterDropdown className={cx({hidden: hasSession})} {...this.state} register={false}/>
+            <LoginRegisterDropdown className={cx({hidden: hasSession})} {...this.state} register={true} />
           </div>
           <div className="content">
             This is some real quality content. 10/10
