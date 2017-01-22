@@ -1,12 +1,10 @@
-import "../styles/main.scss";
-
-import Monkberry from "monkberry";
-import directives from "monkberry-directives";
-import Index from "./index.monk";
+import React from "react";
+import ReactDOM from "react-dom";
+import Home from "./pages/home";
+import "../styles/main.styl";
 
 let view;
 
 document.addEventListener("DOMContentLoaded", (event) => {
-  view = Monkberry.render(Index, document.getElementById("monkberry-root"), {directives});
-  view.update({});
+  view = ReactDOM.render(<Home />, document.getElementById("react-root"));
 });

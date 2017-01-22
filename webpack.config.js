@@ -1,19 +1,20 @@
 var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var entrySources = process.env.NODE_ENV !== "production" ?
   [
+    "babel-polyfill",
     "./src/index.js",
     "webpack-dev-server/client?http://localhost:8080",
     "webpack/hot/only-dev-server"
   ] :
   [
+    "babel-polyfill",
     "./src/index.js"
   ];
 
 module.exports = {
-  entry: {
-    index: entrySources
-  },
+  entry: entrySources,
   output: {
     publicPath: "http://localhost:8080/",
     filename: "public/bundle.js"
@@ -22,7 +23,12 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.monk$/, loader: 'monkberry-loader'
+        test: /\.ejs$/,
+        loader: 'ejs-loader',
+        query: {
+          interpolate: '\\[\\[\\[(.+?)\\]\\]\\]',
+          evaluate: '\\[\\[(.+?)\\]\\]'
+        }
       },
       {
         test: /\.js$/,
@@ -30,8 +36,8 @@ module.exports = {
         excude: /node_modules/
       },
       {
-        test: /\.scss$/,
-        loaders: [ 'style', 'css?sourceMap', 'sass?sourceMap' ]
+        test: /\.styl$/,
+        loaders: [ 'style', 'css?sourceMap', 'postcss-loader', 'sass?sourceMap']
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
@@ -47,6 +53,11 @@ module.exports = {
       'process.env': {
         'NODE_ENV': JSON.stringify('development')
       }
+    }),
+    new HtmlWebpackPlugin({
+      title: 'bitUI',
+      filename: 'index.html',
+      template: 'src/index.ejs'
     })
   ]
 };

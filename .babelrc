@@ -1,10 +1,8 @@
 {
-  "presets": ["es2015"],
+  "presets": ["latest", "stage-0", "react"],
   "plugins": [
     "transform-decorators-legacy",
-    "syntax-flow",
     "transform-class-properties",
-    "async-to-promises"
   ],
   "sourceMaps": true
 }
