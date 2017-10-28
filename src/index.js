@@ -1,10 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import Home from "./pages/home";
-import "../styles/main.styl";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import './index.css';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
-let view;
-
-document.addEventListener("DOMContentLoaded", (event) => {
-  view = ReactDOM.render(<Home />, document.getElementById("react-root"));
-});
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
+);

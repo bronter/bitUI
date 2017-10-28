@@ -3,8 +3,8 @@ UI for bit.dj
 
 Setup
 -----
-`npm i && npm i -g webpack-dev-server`
+`yarn`
 
-Use
+Run
 ---
-`webpack-dev-server --hot`
+`yarn start`
