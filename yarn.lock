@@ -4246,6 +4246,12 @@ querystringify@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-1.0.0.tgz#6286242112c5b712fa654e526652bf6a13ff05cb"
 
+queueing-subject@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/queueing-subject/-/queueing-subject-0.1.1.tgz#43f857b2b263276ff418cdd865b7d78d5d641d9d"
+  dependencies:
+    rxjs "^5.0.1"
+
 randomatic@^1.1.3:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/randomatic/-/randomatic-1.1.7.tgz#c7abe9cc8b87c0baa876b19fde83fd464797e38c"
@@ -4658,7 +4664,7 @@ rxjs-websockets@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/rxjs-websockets/-/rxjs-websockets-4.0.0.tgz#a8d06c74b8629a9f9d56450eda5c3177542c80f4"
 
-rxjs@^5.5.0:
+rxjs@^5.0.1, rxjs@^5.5.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.0.tgz#26d8f3866eb700e247e0728a147c3d628993d812"
   dependencies:

@@ -5,6 +5,7 @@
   "dependencies": {
     "core-decorators": "^0.20.0",
     "material-ui": "^0.19.4",
+    "queueing-subject": "^0.1.1",
     "react": "^16.0.0-alpha.13",
     "react-dom": "^16.0.0-alpha.13",
     "react-scripts-with-decorators": "^0.9.5-5",

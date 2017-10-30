@@ -9,6 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import KermitTea from '../media/images/kermit_tea.jpg';
 
 import {createChannel, channelNameObs, channelNameValid} from "../observables/socket.js";
+import {session} from '../observables/session';
 import observer from '../utils/observer';
 
 @observer
@@ -20,12 +21,17 @@ class ChannelListing extends React.Component {
 
     this.props.subscribe({
       channelName: channelNameObs,
-      channelNameValid
+      channelNameValid,
+      session
     });
   }
 
   handleChangeForChannelName(evt, newValue) {
     channelNameObs.next(newValue);
+  }
+
+  handleClickForNewChannel() {
+    createChannel(this.props.channelName, this.props.session.token);
   }
 
   render() {
@@ -45,7 +51,11 @@ class ChannelListing extends React.Component {
             style={{maxWidth: 136, backgroundColor: "rgba(0, 0, 0, 0.3)"}}
             value={this.props.channelName}
           />
-          <RaisedButton label="NEW CHANNEL" disabled={!this.props.channelNameValid}/>
+          <RaisedButton
+            label="NEW CHANNEL"
+            disabled={!this.props.channelNameValid}
+            onClick={this.handleClickForNewChannel}
+          />
         </Paper>
       </GridList>
     );
