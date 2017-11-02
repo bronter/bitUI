@@ -1,7 +1,7 @@
 import React from 'react';
-import {autobind} from "core-decorators";
+import {autobind} from 'core-decorators';
+import {Link} from 'react-router-dom';
 
-import {GridList, GridTile} from 'material-ui/GridList';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -10,20 +10,39 @@ import KermitTea from '../media/images/kermit_tea.jpg';
 
 import {createChannel, channelNameObs, channelNameValid} from "../observables/socket.js";
 import {session} from '../observables/session';
+import {channelListObs, getChannels} from "../observables/channel";
 import observer from '../utils/observer';
+
+const Tile = props => (
+  <Paper zDepth={3} style={{
+    height: 200, width: 300,
+    margin: 20,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center', justifyContent: 'center',
+    background: `url(${KermitTea})`
+  }} onClick={props.onClick}>
+    {props.children}
+  </Paper>
+);
 
 @observer
 @autobind
 class ChannelListing extends React.Component {
-  static defaultProps = {channelName: ""};
+  static defaultProps = {channelName: "", session: {hasSession: false}, channels: []};
   constructor(props) {
     super(props);
 
     this.props.subscribe({
       channelName: channelNameObs,
       channelNameValid,
-      session
+      session,
+      channels: channelListObs
     });
+  }
+
+  componentWillMount() {
+    getChannels();
   }
 
   handleChangeForChannelName(evt, newValue) {
@@ -35,16 +54,10 @@ class ChannelListing extends React.Component {
   }
 
   render() {
+    console.log(this.props.channels);
     return (
-      <GridList>
-        <Paper zDepth={3} style={{
-          height: 200, width: 300,
-          margin: 20,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center', justifyContent: 'center',
-          background: `url(${KermitTea})`
-        }}>
+      <div style={{display: 'flex', flexWrap: 'wrap'}}>
+        {this.props.session.hasSession && <Tile>
           <TextField
             name="channelName"
             onChange={this.handleChangeForChannelName}
@@ -56,8 +69,13 @@ class ChannelListing extends React.Component {
             disabled={!this.props.channelNameValid}
             onClick={this.handleClickForNewChannel}
           />
-        </Paper>
-      </GridList>
+        </Tile>}
+        {this.props.channels.map(channel => (
+          <Link key={channel} to={`/channels/${channel}`}>
+            <Tile>{channel}</Tile>
+          </Link>
+        ))}
+      </div>
     );
   }
 }

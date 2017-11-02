@@ -24,12 +24,14 @@ export default function observer(WrappedComponent) {
     }
 
     handleErrorForObservable(obsProp, err) {
+      console.log("Error: ", obsProp, err);
       this.setState((prevState, props) => ({
         observableErrorProps: {...prevState.observableProps, [obsProp + "Error"]: err}
       }));
     }
 
     handleCompleteForObservable(obsProp) {
+      console.log("complete: ", obsProp);
       this.setState((prevState, props) => ({
         observableNextProps: {...prevState.observableProps, [obsProp + "Complete"]: true}
       }));
@@ -40,7 +42,7 @@ export default function observer(WrappedComponent) {
         ...accum,
         [curr]: {
           observable: mapPropsToObservables[curr],
-          unsubscribe: mapPropsToObservables[curr].subscribe({
+          subscription: mapPropsToObservables[curr].subscribe({
             next: this.handleNextForObservable.bind(this, curr),
             error: this.handleErrorForObservable.bind(this, curr),
             complete: this.handleCompleteForObservable.bind(this, curr)
@@ -54,7 +56,7 @@ export default function observer(WrappedComponent) {
     }
 
     unsubscribe(propName) {
-      this.state.mapPropsToObservables[propName].unsubscribe();
+      this.state.mapPropsToObservables[propName].subscription.unsubscribe();
       this.setState(prevState => ({
         mapPropsToObservables: {...this.state.mapPropsToObservables, [propName]: null},
         observableNextProps: {...this.state.observableNextProps, [propName]: null},
@@ -64,7 +66,7 @@ export default function observer(WrappedComponent) {
     }
 
     unsubscribeAll() {
-      Object.keys(this.state.mapPropsToObservables).forEach(prop => this.state.mapPropsToObservables[prop].unsubscribe());
+      Object.keys(this.state.mapPropsToObservables).forEach(prop => this.state.mapPropsToObservables[prop].subscription.unsubscribe());
     }
 
     componentWillUnmount() {

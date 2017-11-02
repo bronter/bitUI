@@ -1,4 +1,4 @@
-import {BehaviorSubject, Observable, Subject} from 'rxjs/Rx';
+import {BehaviorSubject, Subject} from 'rxjs/Rx';
 import websocketConnect from 'rxjs-websockets';
 import {QueueingSubject} from 'queueing-subject';
 
@@ -15,8 +15,11 @@ export const socketObs = new BehaviorSubject();
 export const createChannel = (channelName, token) => {
   const connection = websocketConnect(`ws://localhost:9000/channel/${channelName}`, sendMessageObs, token);
 
-  connection.messages.retryWhen(errs => errs.delay(1000)).subscribe(message =>    messagesObs.next(message));
-  sendMessageObs.next(JSON.stringify({to: "wew", from: "laddy", body: "woah"}));
+  connection.messages.retryWhen(errs => errs.delay(1000)).subscribe(message => {
+    const parsedMessage = JSON.parse(message);
+    sendMessageObs.next(JSON.stringify({to: parsedMessage.from, from: parsedMessage.to, body: parsedMessage.body}));
+    messagesObs.next(message);
+  });
 
   socketObs.next(connection);
 }
